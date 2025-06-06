@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-
+BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-n$1r%_sarjti9x^&blch5io3b!p8*+_n#7a07qtc(34nde!n#5
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = ['transport-company.onrender.com']  # заменишь
+ALLOWED_HOSTS = ['transport-company.onrender.com']  
 CSRF_TRUSTED_ORIGINS = ['https://transport-company.onrender.com']
 
 # Application definition

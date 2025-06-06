@@ -1,0 +1,248 @@
+
+	
+	
+	/* Стили для раздела about */
+#about {
+    background-color: #f9f9f9;
+}
+
+#about .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Картинка справа на больших экранах */
+#about .col-md-6 {
+    flex: 1;
+}
+
+/* На мобильных устройствах картинка скрыта или идет сверху */
+@media (max-width: 768px) {
+    #about .col-md-6 {
+        text-align: center;
+    }
+
+    #about .col-md-6 img {
+        margin-top: 20px;
+    }
+
+    #about .col-md-6.d-none.d-md-block {
+        display: block;
+    }
+}
+
+
+
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+.header {
+    background: linear-gradient(90deg, #000428, #004e92);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+
+        .navbar {
+            background: linear-gradient(90deg, #000428, #004e92);
+            color: white;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: orange;
+            text-decoration: none;
+        }
+
+        .navbar-nav .nav-link {
+            color: white;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: orange;
+        }
+
+        section {
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        section h2 {
+            margin-bottom: 1rem;
+        }
+
+        section p {
+            margin-bottom: 1rem;
+        }
+
+        #services .row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        #services .col-md-4 {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #services i {
+            color: orange;
+            margin-bottom: 10px;
+        }
+
+        .contact-info {
+            font-size: 1rem;
+        }
+
+        .contact-info a {
+            color: orange;
+            text-decoration: none;
+        }
+
+        footer {
+            background-color: #000428;
+            color: white;
+        }
+
+        .social-links a {
+            color: white;
+        }
+
+        .social-links a:hover {
+            color: orange;
+        }
+
+        .btn-primary {
+            background-color: #004e92;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #003b73;
+        }
+		
+		
+		
+		/* Стили для изображения */
+#about img {
+    width: 100%; /* Занимает всю ширину блока */
+    height: auto; /* Автоматическая высота */
+    max-height: 400px; /* Ограничение высоты */
+    object-fit: cover; /* Заполняет контейнер, обрезая края */
+    border-radius: 10px; /* Скругление углов */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Легкая тень */
+}
+
+/* На мобильных устройствах */
+@media (max-width: 768px) {
+    #about img {
+        max-height: 250px; /* Меньше высота */
+    }
+}
+
+/* Деловой стиль для раздела "О компании" */
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    border-bottom: 3px solid #004e92;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Основной текст */
+.about-text {
+    font-size: 1.1rem;
+    color: #333;
+    text-align: justify;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Выделение ключевых фраз */
+.highlight {
+    color: #004e92;
+    font-weight: bold;
+}
+
+/* Список услуг */
+/* Список услуг - теперь строго по левому краю */
+.about-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 15px;
+    text-align: left; /* Выровняли текст по левому краю */
+}
+
+.about-list li {
+    font-size: 1.1rem;
+    color: #222;
+    margin-bottom: 8px;
+    padding-left: 30px;
+    position: relative;
+    font-weight: 500;
+}
+
+/* Делаем маркеры стильными и аккуратными */
+.about-list li::before {
+    content: "•"; /* Круглый маркер */
+    color: #004e92;
+    font-size: 1.3rem;
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .about-list {
+        padding-left: 10px;
+    }
+}
+ 
+
+/* Изображение */
+.about-img {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .about-text {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .about-list {
+        text-align: left;
+        padding-left: 10px;
+    }
+}
+

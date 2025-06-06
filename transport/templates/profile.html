@@ -1,0 +1,116 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Didar Transport Company</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profils.css' %}">
+</head>
+<body>
+
+{% include "header.html" %}
+
+
+
+<section id="profile" class="py-5">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-4 text-gradient">🚍 Мои заказы</h2>
+
+        {% if my_booking %}
+            <div class="row">
+                {% for booking in my_booking %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card booking-card shadow-sm border-0 position-relative">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">
+                                    {% if booking.route %}
+                                        {{ booking.route.start_location }} → {{ booking.route.end_location }}
+                                    {% elif booking.route_custom %}
+                                        {{ booking.route_custom.start_location }} → {{ booking.route_custom.end_location }}
+                                    {% else %}
+                                        <span class="text-muted">Маршрут не указан</span>
+                                    {% endif %}
+                                </h5>
+
+                                <p class="card-text"><strong>Цена:</strong> 
+                                    {% if booking.route %}
+                                        {{ booking.route.price }} тг.
+                                    {% elif booking.route_custom.price %}
+                                        {{ booking.route_custom.price }} тг.
+                                    {% else %}
+                                        <span class="text-muted">Не указана</span>
+                                    {% endif %}
+                                </p>
+
+                                <p class="card-text"><strong>Дата:</strong> {{ booking.departure_date }}</p>
+
+                                <p class="card-text"><strong>Количество мест:</strong> 
+                                    {% if booking.route %}
+                                        {{ booking.route.seats }}
+                                    {% elif booking.route_custom %}
+                                        {{ booking.route_custom.seats }}
+                                    {% else %}
+                                        <span class="text-muted">Не указано</span>
+                                    {% endif %}
+                                </p>
+
+                                <div class="status-ribbon status-{{ booking.status|slugify }}">
+                                    {{ booking.status }}
+                                </div>
+
+                                <div class="d-flex">
+                                    {% if booking.status == 'В обработке' %}
+                                        <a href="{% url 'edit_booking' booking.id %}" class="btn btn-primary me-2">
+                                            Изменить
+                                        </a>
+                                        <!-- Кнопка для вызова модального окна -->
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ booking.id }}">
+                                            Удалить
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Модальное окно для подтверждения удаления -->
+                    <div class="modal fade" id="deleteModal{{ booking.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ booking.id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel{{ booking.id }}">Подтверждение удаления</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Вы уверены, что хотите удалить бронирование?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                    <form method="post" action="{% url 'delete_booking' booking.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Удалить</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center text-muted">Вы еще не заказали маршруты.</p>
+        {% endif %}
+    </div>
+</section>
+
+{% include "footer.html" %}
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

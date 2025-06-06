@@ -1,0 +1,19 @@
+{% include "header.html" %}
+{% load static %}
+
+<section id="delete-booking" class="py-5">
+    <div class="container">
+        <h2 class="text-center">Удалить заказ</h2>
+        
+        <p>Вы уверены, что хотите удалить заказ с маршрутом {{ booking.route.start_location }} - {{ booking.route.end_location }}?</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+        
+        <a href="{% url 'profile' %}" class="btn btn-secondary mt-3">Отмена</a>
+    </div>
+</section>
+
+{% include "footer.html" %}

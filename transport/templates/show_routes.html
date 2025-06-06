@@ -1,0 +1,155 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Didar Transport Company</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
+</head>
+<body>
+
+{% include "header.html" %}
+
+<section id="about" class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Текст о компании -->
+            <div class="col-md-6">
+                <h2 class="section-title">О компании</h2>
+                <p class="about-text">
+                    <strong>Didar Transport Company</strong> — это надежный оператор пассажирских перевозок.  
+                    Мы предлагаем <span class="highlight">профессиональные транспортные решения</span> для бизнеса и частных клиентов.
+                </p>
+                <p class="about-text">
+                    В распоряжении клиентов — <strong>автобусы и микроавтобусы</strong> разного класса,  
+                    оборудованные кондиционерами и мультимедийными системами.  
+                    Мы работаем по <strong>долгосрочным контрактам</strong> и разовым заказам,  
+                    обеспечивая высокий уровень сервиса и безопасность.
+                </p>
+                <p class="about-text">
+                    <span class="highlight">Свяжитесь с нами</span>, чтобы обсудить индивидуальные условия сотрудничества.
+                </p>
+            </div>
+ 
+            <div class="col-md-6 d-none d-md-block">
+                <img src="{% static 'images/baner.jpg' %}" alt="baner" class="about-img">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <section id="services" class="py-5 bg-light">
+        <div class="container">
+            <h2>Наши услуги</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <i class="fas fa-route fa-3x text-warning"></i>
+                    <h4>Готовые маршруты</h4>
+                    <p>Выберите из списка проверенных маршрутов и наслаждайтесь поездкой.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-map-marker-alt fa-3x text-warning"></i>
+                    <h4> <a href="{% url 'create_request' %}" class="text-decoration-none" style="color: black;">Индивидуальные маршруты</a></h4>
+                    <p>Составьте свой маршрут с нашим специалистом.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-handshake fa-3x text-warning"></i>
+                    <h4>Долгосрочные контракты</h4>
+                    <p>Заключите договор на регулярные перевозки по выгодным условиям.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<div class="container d-flex justify-content-center mb-4">
+    <form id="search-form" class="d-flex w-75 p-2 border rounded-3 shadow-lg bg-light">
+        <input type="text" name="query" id="search-input" class="form-control me-2" 
+               placeholder="Поиск маршрута..." aria-label="Поиск" 
+               style="border-radius: 30px; box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);">
+        <button type="submit" class="btn btn-warning rounded-3 px-4 py-2">Поиск</button>
+    </form>
+</div>
+
+
+
+<h2 class="text-center mb-4">Наши маршруты</h2>
+
+<!-- Центрируем таблицу -->
+<div class="container d-flex justify-content-center">
+    <table class="table table-bordered table-striped" style="max-width: 800px; width: 100%;">
+        <thead class="table-dark">
+            <tr>
+                <th>Маршрут</th>
+                <th>Цена</th>
+                <th>Количество дней</th>
+                <th>Количество мест</th>
+                <th>Действия</th> <!-- Добавили колонку для кнопки -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for route in routes %}
+                <tr>
+                    <td>{{ route.start_location }} - {{ route.end_location }}</td>
+                    <td>{{ route.price }}</td>
+                    <td>{% if route.number_of_days %} {{ route.number_of_days }} {% else %} Не указано {% endif %}</td>
+                    <td>{{ route.seats }}</td>
+                    <td>
+						<form method="get" action="{% url 'create_request_route' %}">
+						<input type="hidden" name="route_id" value="{{ route.id }}">
+						<button type="submit" class="btn btn-warning">Заказать</button>
+						</form>
+					</td>
+                </tr>
+            {% empty %}
+                <td colspan="5" class="text-center">
+                    <a href="{% url 'create_request' %}" class="text-decoration-none" style="color: black;">
+                        Закажи собственный маршрут
+                    </a>
+                </td>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+	
+	
+
+    <div style="padding-bottom: 50px;"></div>
+
+
+{% include "footer.html" %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.getElementById("search-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Предотвращаем перезагрузку страницы
+
+    let query = document.getElementById("search-input").value;
+    
+    fetch("{% url 'show_routes' %}?query=" + encodeURIComponent(query))
+        .then(response => response.text())
+        .then(data => {
+            // Найдем контейнер таблицы и обновим его содержимое
+            let tableContainer = document.querySelector(".container table");
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(data, "text/html");
+            let newTable = doc.querySelector(".container table");
+            
+            if (newTable) {
+                tableContainer.innerHTML = newTable.innerHTML;
+            }
+        })
+        .catch(error => console.error("Ошибка:", error));
+});
+</script>
+
+</body>
+</html>
+

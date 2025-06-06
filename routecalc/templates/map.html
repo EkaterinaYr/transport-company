@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Маршрут с редактируемыми точками</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; margin-bottom: 1em; }
+        input { width: 100%; padding: 6px; margin-bottom: 6px; }
+        #info { font-size: 18px; margin-top: 1em; }
+    </style>
+</head>
+<body>
+    <h1>Расчёт маршрута</h1>
+
+    <div id="map"></div>
+
+    <!-- Выбор точки -->
+    <p>
+        <strong>Выберите точку для редактирования:</strong><br>
+        <label><input type="radio" name="point_select" value="0" checked> Откуда</label>
+        <label><input type="radio" name="point_select" value="1"> Куда</label>
+    </p>
+
+    <!-- Поля с адресами -->
+    <p><strong>Откуда:</strong><br>
+        <input type="text" id="start_address" placeholder="Введите адрес" />
+        <button onclick="geocodeAddress(0)">Найти на карте</button>
+    </p>
+
+    <p><strong>Куда:</strong><br>
+        <input type="text" id="end_address" placeholder="Введите адрес" />
+        <button onclick="geocodeAddress(1)">Найти на карте</button>
+    </p>
+
+    <!-- Расстояние и цена -->
+    <div id="info"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        let map = L.map('map').setView([49.8, 73.1], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        let points = [null, null];
+        let markers = [null, null];
+        let inputs = [
+            document.getElementById('start_address'),
+            document.getElementById('end_address')
+        ];
+
+        // Клик по карте
+        map.on('click', function (e) {
+            const index = parseInt(document.querySelector('input[name="point_select"]:checked').value);
+
+            if (markers[index]) map.removeLayer(markers[index]);
+
+            points[index] = e.latlng;
+            markers[index] = L.marker(e.latlng).addTo(map);
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
+                .then(res => res.json())
+                .then(data => {
+                    let parts = (data.display_name || 'Не найден').split(',');
+                    if (parts.length > 2) {
+                        parts = parts.slice(0, -2); // Удаляем почтовый индекс и страну
+                    }
+                    inputs[index].value = parts.join(',').trim();
+                });
+
+            if (points[0] && points[1]) calculateRoute();
+        });
+
+        // Поиск по адресу
+        function geocodeAddress(index) {
+            const address = inputs[index].value;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+                .then(res => res.json())
+                .then(results => {
+                    if (results.length === 0) {
+                        alert("Адрес не найден");
+                        return;
+                    }
+
+                    const lat = parseFloat(results[0].lat);
+                    const lon = parseFloat(results[0].lon);
+                    const latlng = L.latLng(lat, lon);
+
+                    if (markers[index]) map.removeLayer(markers[index]);
+                    markers[index] = L.marker(latlng).addTo(map);
+                    points[index] = latlng;
+                    map.setView(latlng, 13);
+
+                    let parts = (results[0].display_name || 'Не найден').split(',');
+                    if (parts.length > 2) {
+                        parts = parts.slice(0, -2);
+                    }
+                    inputs[index].value = parts.join(',').trim();
+
+                    if (points[0] && points[1]) calculateRoute();
+                });
+        }
+
+        // Расчёт маршрута
+        function calculateRoute() {
+            const url = `https://router.project-osrm.org/route/v1/driving/${points[0].lng},${points[0].lat};${points[1].lng},${points[1].lat}?overview=false`;
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    const distanceMeters = data.routes[0].distance;
+                    const distanceKm = (distanceMeters / 1000).toFixed(2);
+                    const price = (distanceKm * 200).toFixed(0);
+
+                    document.getElementById('info').innerHTML =
+                        `<p><strong>Расстояние:</strong> ${distanceKm} км</p>
+                         <p><strong>Цена:</strong> ${price} ₸</p>`;
+                });
+        }
+    </script>
+</body>
+</html>

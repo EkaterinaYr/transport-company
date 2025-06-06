@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Didar Transport Company</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/user.css' %}">
+</head>
+
+
+<body>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Регистрация</h2>
+        <form method="post" class="shadow-lg p-3 rounded-3 bg-white form-container">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.first_name.errors }}
+                <input type="text" name="first_name" id="id_first_name" class="form-control" placeholder="Имя" value="{{ form.first_name.value|default:'' }}">
+            </div>
+            <div class="mb-3">
+                {{ form.last_name.errors }}
+                <input type="text" name="last_name" id="id_last_name" class="form-control" placeholder="Фамилия" value="{{ form.last_name.value|default:'' }}">
+            </div>
+            <div class="mb-3">
+                {{ form.phone_number.errors }}
+                <input type="text" name="phone_number" id="id_phone_number" class="form-control" placeholder="Номер телефона" value="{{ form.phone_number.value|default:'' }}">
+            </div>
+            <div class="mb-3">
+                {{ form.username.errors }}
+                <input type="email" name="username" id="id_username" class="form-control" placeholder="Введите email" value="{{ form.username.value|default:'' }}">
+            </div>
+            <div class="mb-3">
+                {{ form.password1.errors }}
+                <input type="password" name="password1" id="id_password1" class="form-control" placeholder="Пароль">
+            </div>
+            <div class="mb-3">
+                {{ form.password2.errors }}
+                <input type="password" name="password2" id="id_password2" class="form-control" placeholder="Подтверждение пароля">
+            </div>
+            <button type="submit" class="btn btn-warning w-100">Зарегистрироваться</button>
+        </form>
+
+		<a href="/" class="btn btn-link d-block text-center mt-3">- на главную</a>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+	
+
+</body>
+</html>

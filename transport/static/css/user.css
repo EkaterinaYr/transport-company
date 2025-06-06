@@ -1,0 +1,92 @@
+/* Общие стили для обеих страниц */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 600px;
+}
+
+.form-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.form-container:hover {
+    transform: translateY(-5px);
+}
+
+.form-control {
+    padding: 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #004e92;
+    box-shadow: 0 0 5px rgba(0, 78, 146, 0.5);
+}
+
+.form-control::placeholder {
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+.form-control:focus::placeholder {
+    color: #004e92;
+}
+
+.btn-warning {
+    background-color: #ff9800;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #e68900;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: #004e92;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+/* Специфичные стили для регистрационной страницы */
+
+.container {
+    max-width: 600px;
+}
+
+.form-container {
+    padding: 30px;
+}
+
+.form-control {
+    padding: 15px;
+    font-size: 1rem;
+}
+
+/* Специфичные стили для страницы входа */
+
+.container {
+    max-width: 450px; /* Reduced width for login page */
+}
+
+.form-container {
+    padding: 15px;
+}
+
+.form-control {
+    padding: 10px; /* Reduced padding */
+    font-size: 0.9rem; /* Smaller font size */
+}
+

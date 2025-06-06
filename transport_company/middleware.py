@@ -5,7 +5,7 @@ class BasicAuthMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.username = 'admin'        # поменяй на свой логин
-        self.password = 'mypassword'   # поменяй на свой пароль
+        self.password = 'ftyr56567'   # поменяй на свой пароль
 
     def __call__(self, request):
         auth = request.META.get('HTTP_AUTHORIZATION')

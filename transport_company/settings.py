@@ -17,12 +17,17 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # если у тебя есть папка static/
-]
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')    
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -56,6 +61,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'transport_company.middleware.BasicAuthMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

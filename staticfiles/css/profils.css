@@ -1,0 +1,73 @@
+    body {
+        background-color: #f4f4f4;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .text-gradient {
+        background: linear-gradient(to right, #004e92, #000428);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .booking-card {
+        background: #fff;
+        border-radius: 12px;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        overflow: hidden;
+        position: relative;
+        padding-top: 40px;
+    }
+
+    .booking-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-ribbon {
+        position: absolute;
+        top: 10px;
+        left: -10px;
+        background: #6c757d;
+        color: white;
+        padding: 5px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .status-\u0432-\u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0435 { background: #f39c12; }
+    .status-\u043e\u0434\u043e\u0431\u0440\u0435\u043d\u043e { background: #28a745; }
+    .status-\u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u043e { background: #17a2b8; }
+    .status-\u043e\u0442\u043a\u0430\u0437\u0430\u043d\u043e { background: #dc3545; }
+
+    .btn-primary {
+        background-color: #004e92;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 15px;
+    }
+
+    .btn-primary:hover {
+        background-color: #003366;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 15px;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+    }
+	
+	
+	
+.notification-count {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 14px;
+}

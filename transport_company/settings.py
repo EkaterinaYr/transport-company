@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,8 +28,8 @@ SECRET_KEY = 'django-insecure-n$1r%_sarjti9x^&blch5io3b!p8*+_n#7a07qtc(34nde!n#5
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = ['your-project-name.onrender.com']  # заменишь
-CSRF_TRUSTED_ORIGINS = ['https://your-project-name.onrender.com']
+ALLOWED_HOSTS = ['transport-company.onrender.com']  # заменишь
+CSRF_TRUSTED_ORIGINS = ['https://transport-company.onrender.com']
 
 # Application definition
 
@@ -125,10 +128,6 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 

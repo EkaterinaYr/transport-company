@@ -18,17 +18,6 @@ from django.contrib import messages
 
 
 
-from django.contrib.auth.models import User
-from django.http import HttpResponse
-
-def create_superuser_from_web(request):
-    if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser("admin", "admin@example.com", "admin123")
-        return HttpResponse("Суперпользователь создан: admin / admin123")
-    return HttpResponse("Суперпользователь уже существует")
-
-
-
 
 
 # начало блока бронирования

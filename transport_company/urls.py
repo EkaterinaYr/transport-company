@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from transport.views import show_routes  # <-- добавь в начало
+from blogapp.views import create_superuser_from_web
 
 urlpatterns = [
     path('', show_routes, name='home'),  # <-- добавь это

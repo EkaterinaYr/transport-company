@@ -37,8 +37,8 @@ ALLOWED_HOSTS = ['transport-company.onrender.com']
 CSRF_TRUSTED_ORIGINS = ['https://transport-company.onrender.com']
 
 
-ALLOWED_HOSTS = ['transport-company.onrender.com']
-CSRF_TRUSTED_ORIGINS = ['https://transport-company.onrender.com']
+ALLOWED_HOSTS = ['https://r2003.pythonanywhere.com/']
+# CSRF_TRUSTED_ORIGINS = ['https://transport-company.onrender.com']
 
 # Application definition
 

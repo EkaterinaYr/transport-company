@@ -42,6 +42,20 @@ from django.contrib import messages
    #     print(f"Ошибка геокодирования: {e}")
    #     return None
 
+
+
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
+def make_admin(request):
+    user = User.objects.get(username='myuser')  # замени 'myuser' на нужное имя
+    user.is_staff = True
+    user.is_superuser = True
+    user.save()
+    return HttpResponse("Суперпользователь создан!")
+
+
+
 @login_required
 def create_booking_custom(request):
     if request.method == 'POST':

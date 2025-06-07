@@ -88,6 +88,8 @@
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-warning text-white">Отправить заявку</button>
                     </div>
+					<input type="hidden" name="distance" id="distance_hidden">
+					<input type="hidden" name="price" id="price_hidden">
                 </form>
 
             </div>
@@ -101,6 +103,7 @@
 <!-- Bootstrap JS и Leaflet -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 
 <script>
     let map = L.map('map').setView([49.8, 73.1], 11);
@@ -121,12 +124,18 @@
         points[index] = e.latlng;
         markers[index] = L.marker(e.latlng).addTo(map);
 
+        // Обратное геокодирование — получить адрес
         fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
             .then(res => res.json())
             .then(data => {
                 let parts = (data.display_name || 'Не найден').split(',');
                 if (parts.length > 2) parts = parts.slice(0, -2);
                 inputs[index].value = parts.join(',').trim();
+
+                // Если выбраны обе точки — рассчитываем маршрут
+                if (points[0] && points[1]) {
+                    calculateRoute();
+                }
             });
     });
 
@@ -152,8 +161,35 @@
                 let parts = (results[0].display_name || 'Не найден').split(',');
                 if (parts.length > 2) parts = parts.slice(0, -2);
                 inputs[index].value = parts.join(',').trim();
+
+                // Если выбраны обе точки — рассчитываем маршрут
+                if (points[0] && points[1]) {
+                    calculateRoute();
+                }
+            });
+    }
+
+    // 🚀 Функция расчёта маршрута и заполнения скрытых полей
+    function calculateRoute() {
+        const start = points[0];
+        const end = points[1];
+
+        fetch(`https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=false`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.routes && data.routes.length > 0) {
+                    const distanceInKm = data.routes[0].distance / 1000;  // метры → км
+                    const price = distanceInKm * 400;
+
+                    // Сохраняем значения в скрытые поля формы
+                    document.getElementById('distance_hidden').value = distanceInKm.toFixed(2);
+                    document.getElementById('price_hidden').value = price.toFixed(2);
+                }
             });
     }
 </script>
+
+
+
 </body>
 </html>

@@ -18,25 +18,25 @@ from django.contrib import messages
 
 # начало блока бронирования
 # функция расчета расстояние принемает два параметра
-def calculate_distance(address1, address2):
+#def calculate_distance(address1, address2):
     # переменной присваеваем вызов геокодирования из библиотеки pip install geopy
     # для преобразование адреса в кординаты
     # user_agent обезательный параметр чтобы сервис знал кто обращается
-    geolocator = Nominatim(user_agent="transport_company")
-    try:
-        location1 = geolocator.geocode(address1)
-        location2 = geolocator.geocode(address2)
+ #   geolocator = Nominatim(user_agent="transport_company")
+ #   try:
+  #      location1 = geolocator.geocode(address1)
+   #     location2 = geolocator.geocode(address2)
 
-        if location1 and location2:
-            coords1 = (location1.latitude, location1.longitude)
-            coords2 = (location2.latitude, location2.longitude)
-            distance = geodesic(coords1, coords2).km
-            return distance
-        else:
-            return None
-    except Exception as e:
-        print(f"Ошибка геокодирования: {e}")
-        return None
+    #    if location1 and location2:
+     #       coords1 = (location1.latitude, location1.longitude)
+     #       coords2 = (location2.latitude, location2.longitude)
+     #       distance = geodesic(coords1, coords2).km
+     #       return distance
+     #   else:
+     #       return None
+   # except Exception as e:
+   #     print(f"Ошибка геокодирования: {e}")
+   #     return None
 
 @login_required
 def create_booking_custom(request):
@@ -47,20 +47,19 @@ def create_booking_custom(request):
             if departure_date < now().date():
                 messages.error(request, 'Нельзя выбрать дату в прошлом.')
             else:
+                distance = request.POST.get('distance')
+                price = request.POST.get('price')
+
+                if not distance or not price:
+                    messages.error(request, 'Ошибка: не удалось получить расстояние или цену. Попробуйте ещё раз.')
+                    return redirect('create_request')
+
                 route_custom = form.save(commit=False)
-                distance = calculate_distance(route_custom.start_location, route_custom.end_location)
-                if distance is not None:
-                    route_custom.price = distance * 400  # Цена за км = 400 тенге
-                    formatted_distance = f'{distance:.2f} км'
-                    formatted_price = f'{route_custom.price:.2f} тенге'
-                else:
-                    route_custom.price = 0  # Если не удалось вычислить расстояние
-                    formatted_distance = 'неизвестно'
-                    formatted_price = '0 тенге'
+                route_custom.price = float(price)
+                route_custom.distance = float(distance)  # если поле есть в модели
                 route_custom.save()
-                # Получаем или создаем объект Clients
-                client, created = Clients.objects.get_or_create(user=request.user)
-                # Создаем объект Booking
+
+                client, _ = Clients.objects.get_or_create(user=request.user)
                 booking = Booking(
                     client=client,
                     route=None,
@@ -68,12 +67,12 @@ def create_booking_custom(request):
                     departure_date=departure_date,
                 )
                 booking.save()
+
                 messages.success(
                     request,
-                    f'Спасибо! Ваша заявка успешно отправлена. Расстояние: {formatted_distance}, Цена: {route_custom.price:.0f} ₸.'
+                    f'Спасибо! Ваша заявка успешно отправлена. Расстояние: {float(distance):.2f} км, Цена: {float(price):.0f} ₸.'
                 )
-                return redirect('create_request')  # или имя маршрута
-
+                return redirect('create_request')
     else:
         form = CustomBookingForm()
 

@@ -18,14 +18,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
-import os
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  
+STATICFILES_DIRS = [BASE_DIR / 'static']  # исходники статики, если есть
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')    
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # сюда collectstatic складывает файлы
 
 
 
@@ -43,6 +42,10 @@ SECRET_KEY = 'django-insecure-n$1r%_sarjti9x^&blch5io3b!p8*+_n#7a07qtc(34nde!n#5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 ALLOWED_HOSTS = ['transport-company.onrender.com']  
+CSRF_TRUSTED_ORIGINS = ['https://transport-company.onrender.com']
+
+
+ALLOWED_HOSTS = ['transport-company.onrender.com']
 CSRF_TRUSTED_ORIGINS = ['https://transport-company.onrender.com']
 
 # Application definition

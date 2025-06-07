@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
 from transport.views import show_routes  # <-- добавь в начало
-from .views import make_admin  
+ 
 urlpatterns = [
     path('', show_routes, name='home'),  # <-- добавь это
     path('admin/', admin.site.urls),
     path('transport/', include('transport.urls')),  # явное разделение
     path('routecalc/', include('routecalc.urls')),
-    path('make-admin/', make_admin),  # временный маршрут
+
 ]
 
 admin.site.site_header = "Панель администратора"

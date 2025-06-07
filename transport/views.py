@@ -48,7 +48,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 
 def make_admin(request):
-    user = User.objects.get(username='myuser')  # замени 'myuser' на нужное имя
+    user = User.objects.get(username='admin')  # замени 'myuser' на нужное имя
     user.is_staff = True
     user.is_superuser = True
     user.save()

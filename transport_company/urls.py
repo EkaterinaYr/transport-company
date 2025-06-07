@@ -7,6 +7,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('transport/', include('transport.urls')),  # явное разделение
     path('routecalc/', include('routecalc.urls')),
+    path('create-superuser/', create_superuser_from_web),
+
 ]
 
 admin.site.site_header = "Панель администратора"
